@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocumentCore", "..\Document
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "..\UnitTest\UnitTest.vcxproj", "{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordCountPlugin", "..\WordCountPlugin\WordCountPlugin.vcxproj", "{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginManager", "..\PluginManager\PluginManager.vcxproj", "{3EC95495-066F-4866-AE58-C6D95709918A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -38,9 +42,24 @@ Global
 		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Debug|x86.ActiveCfg = Debug|Win32
 		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Debug|x86.Build.0 = Debug|Win32
 		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Release|x64.ActiveCfg = Release|x64
-		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Release|x64.Build.0 = Release|x64
 		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Release|x86.ActiveCfg = Release|Win32
 		{D3B76B36-9961-4A3F-8D58-57B2D0D35E84}.Release|x86.Build.0 = Release|Win32
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Debug|x64.ActiveCfg = Debug|x64
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Debug|x64.Build.0 = Debug|x64
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Debug|x86.ActiveCfg = Debug|Win32
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Debug|x86.Build.0 = Debug|Win32
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Release|x64.ActiveCfg = Release|x64
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Release|x64.Build.0 = Release|x64
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Release|x86.ActiveCfg = Release|Win32
+		{8AA4DDC0-4B8C-4E26-A44C-491747595F3A}.Release|x86.Build.0 = Release|Win32
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Debug|x64.ActiveCfg = Debug|x64
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Debug|x64.Build.0 = Debug|x64
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Debug|x86.ActiveCfg = Debug|Win32
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Debug|x86.Build.0 = Debug|Win32
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x64.ActiveCfg = Release|x64
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x64.Build.0 = Release|x64
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x86.ActiveCfg = Release|Win32
+		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
