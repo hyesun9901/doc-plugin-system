@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include <vector>
-#include "IPlugin.h"
-#include "Document.h"
-#include "../DocumentCore/TxtDocument.h"
 #include "PluginManager.h"
+#include "Document.h"
+#include "../DocumentCore/IPlugin.h"
+#include "../DocumentCore/TxtDocument.h"
 #include "../WordCountPlugin/WordCountPlugin.h"
+#include "../EncryptionPlugin/EncryptionPlugin.h"
 
 void CPluginManager::register_plugin(std::shared_ptr<IPlugin> p)
 {
@@ -25,7 +26,7 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 			bAnyPlugin = true;
 			try {
 				int nResult = p->execute(doc);
-				std::cout << nResult << std::endl;
+				std::cout << "[" << __FUNCTION__ << "] " << "result:" << nResult << std::endl;
 			}
 			catch (const std::exception& e) {
 				std::cerr << "[ERROR] " << "WordCountPlugin" << ": " << e.what() << "\n";
@@ -47,7 +48,7 @@ int main()
 	try {
 		CPluginManager pm;
 		pm.register_plugin(std::make_shared<CWordCountPlugin>());
-
+		pm.register_plugin(std::make_shared<CEncryptionPlugin>());
 		CTxtDocument  txt("sample.txt");
 
 		pm.run_plugins_for_document(txt);

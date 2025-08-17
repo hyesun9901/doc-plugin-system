@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="CsvDocument.h" />
     <ClInclude Include="DocumentCore.h" />
+    <ClInclude Include="IPlugin.h" />
     <ClInclude Include="JsonDocument.h" />
     <ClInclude Include="TxtDocument.h" />
     <ClInclude Include="framework.h" />

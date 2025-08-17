@@ -3,8 +3,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-#include "IPlugin.h"
-#include "Document.h"
+#include "../DocumentCore/IPlugin.h"
 
 class CPluginManager 
 {

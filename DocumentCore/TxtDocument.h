@@ -1,6 +1,6 @@
 #pragma once
 #include "Document.h"
-class CTxtDocument : public CDocument 
+class CTxtDocument : public CDocument
 {
 public:
     explicit CTxtDocument(const std::string& path);

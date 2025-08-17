@@ -4,7 +4,7 @@
 #else
 #define WORDCOUNT_API __declspec(dllimport)
 #endif
-#include "IPlugin.h"
+#include "../DocumentCore/IPlugin.h"
 #include "../DocumentCore/TxtDocument.h"
 
 class WORDCOUNT_API CWordCountPlugin : public IPlugin

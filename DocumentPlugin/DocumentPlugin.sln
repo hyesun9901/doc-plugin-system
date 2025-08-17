@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WordCountPlugin", "..\WordC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginManager", "..\PluginManager\PluginManager.vcxproj", "{3EC95495-066F-4866-AE58-C6D95709918A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EncryptionPlugin", "..\EncryptionPlugin\EncryptionPlugin.vcxproj", "{682F6FD5-4DD5-430C-8EAA-876957B8903D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -60,6 +62,14 @@ Global
 		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x64.Build.0 = Release|x64
 		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x86.ActiveCfg = Release|Win32
 		{3EC95495-066F-4866-AE58-C6D95709918A}.Release|x86.Build.0 = Release|Win32
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Debug|x64.ActiveCfg = Debug|x64
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Debug|x64.Build.0 = Debug|x64
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Debug|x86.ActiveCfg = Debug|Win32
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Debug|x86.Build.0 = Debug|Win32
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Release|x64.ActiveCfg = Release|x64
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Release|x64.Build.0 = Release|x64
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Release|x86.ActiveCfg = Release|Win32
+		{682F6FD5-4DD5-430C-8EAA-876957B8903D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
