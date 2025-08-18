@@ -11,6 +11,7 @@
 #include "../EncryptionPlugin/EncryptionPlugin.h"
 #include "../JsonValidationPlugin/JsonValidationPlugin.h"
 #include "../JsonKeyValuePrint/JsonKeyValuePrint.h"
+#include "../CsvColumnSumPlugin/CsvColumnSumPlugin.h"
 
 void CPluginManager::register_plugin(std::shared_ptr<IPlugin> p)
 {
@@ -54,11 +55,16 @@ int main()
 
 		pm.register_plugin(std::make_shared<CJsonValidationPlugin>());
 		pm.register_plugin(std::make_shared<CJsonKeyValuePrint>());
+
+		pm.register_plugin(std::make_shared<CCsvColumnSumPlugin>(3, true)); // 3번째 컬럼의 합 의미
+
 		CTxtDocument  txt("sample.txt");
 		CJsonDocument json("sample.json");
+		CCsvDocument csv("sample.csv");
 
 		pm.run_plugins_for_document(txt);
 		pm.run_plugins_for_document(json);
+		pm.run_plugins_for_document(csv);
 
 	}
 	catch (const std::exception& e) {

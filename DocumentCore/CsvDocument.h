@@ -7,7 +7,7 @@
 class CCsvDocument : public CDocument
 {
 public:
-    explicit CCsvDocument(const std::string& path, char delimiter = ',');
+    CCsvDocument(const std::string& path, char delimiter = ',');
     std::string get_type() const override;
 
     const std::vector<std::vector<std::string>>& get_rows() const;
