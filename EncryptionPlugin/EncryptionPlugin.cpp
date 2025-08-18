@@ -19,6 +19,12 @@ int CEncryptionPlugin::execute(CDocument& doc)
 	//std::cout << "[Encrypt ROT13] " << doc.get_path() << " -> saved: " << outPath << "\n";
 	return ERROR_SUCCESS;
 }
+
+std::string CEncryptionPlugin::get_plugin_name() const
+{
+	return "EncryptionPlugin";
+}
+
 std::string CEncryptionPlugin::rot13(const std::string& s)
 {
 	std::string out = s;

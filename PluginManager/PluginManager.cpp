@@ -26,7 +26,7 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 			bAnyPlugin = true;
 			try {
 				int nResult = p->execute(doc);
-				std::cout << "[" << __FUNCTION__ << "] " << "result:" << nResult << std::endl;
+				std::cout << "[" << __FUNCTION__ << "] " << p->get_plugin_name() <<"result = " << nResult << std::endl;
 			}
 			catch (const std::exception& e) {
 				std::cerr << "[ERROR] " << "WordCountPlugin" << ": " << e.what() << "\n";

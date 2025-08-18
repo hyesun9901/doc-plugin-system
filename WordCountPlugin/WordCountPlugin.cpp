@@ -38,3 +38,8 @@ int CWordCountPlugin::execute(CDocument& doc)
     //TODO:인터페이스별로 get_version 필요할듯
     return wc;
 }
+
+std::string CWordCountPlugin::get_plugin_name() const
+{
+    return "WordCountPlugin";
+}

@@ -13,6 +13,7 @@ class ENCRYPTION_API CEncryptionPlugin : public IPlugin
 public:
 	bool is_supported(CDocument& doc) const override;
 	int execute(CDocument& doc) override;
+	std::string get_plugin_name() const override;
 
 private:
 	std::string rot13(const std::string& s);
