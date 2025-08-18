@@ -10,6 +10,7 @@
 #include "../WordCountPlugin/WordCountPlugin.h"
 #include "../EncryptionPlugin/EncryptionPlugin.h"
 #include "../JsonValidationPlugin/JsonValidationPlugin.h"
+#include "../JsonKeyValuePrint/JsonKeyValuePrint.h"
 
 void CPluginManager::register_plugin(std::shared_ptr<IPlugin> p)
 {
@@ -30,10 +31,10 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 				std::cout << "[" << __FUNCTION__ << "] " << p->get_plugin_name() <<"result = " << nResult << std::endl;
 			}
 			catch (const std::exception& e) {
-				std::cerr << "[ERROR] " << "WordCountPlugin" << ": " << e.what() << "\n";
+				std::cerr << "[ERROR] " << p->get_plugin_name() << ": " << e.what() << "\n";
 			}
 			catch (...) {
-				std::cerr << "[ERROR] " <<  "WordCountPlugin" << ": unknown error\n";
+				std::cerr << "[ERROR] " << p->get_plugin_name() << ": unknown error\n";
 			}
 		}
 	}
@@ -52,13 +53,12 @@ int main()
 		pm.register_plugin(std::make_shared<CEncryptionPlugin>());
 
 		pm.register_plugin(std::make_shared<CJsonValidationPlugin>());
-
+		pm.register_plugin(std::make_shared<CJsonKeyValuePrint>());
 		CTxtDocument  txt("sample.txt");
 		CJsonDocument json("sample.json");
 
 		pm.run_plugins_for_document(txt);
 		pm.run_plugins_for_document(json);
-		std::cout << txt.get_content() << std::endl;
 
 	}
 	catch (const std::exception& e) {

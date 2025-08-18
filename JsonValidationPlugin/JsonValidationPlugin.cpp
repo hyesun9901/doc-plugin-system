@@ -37,6 +37,5 @@ bool CJsonValidationPlugin::is_json_valid(const std::string& strContent)
 
 	bool bJsonValid = false;
 	bJsonValid = reader->parse(strContent.c_str(), strContent.c_str() + strContent.length(), &root, &strErrors);
-
 	return bJsonValid;
 }
