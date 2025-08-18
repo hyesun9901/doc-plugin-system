@@ -7,11 +7,11 @@ bool CWordCountPlugin::is_supported(CDocument& doc) const
 	return doc.get_type() == "txt";
 }
 
-size_t CWordCountPlugin::word_count(const std::string& srrContent)
+size_t CWordCountPlugin::word_count(const std::string& strContent)
 {
     size_t cnt = 0;
     bool bInWord = false;
-    for (unsigned char ch : srrContent)
+    for (unsigned char ch : strContent)
     {
         if (std::isalnum(ch)) 
         {

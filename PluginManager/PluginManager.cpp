@@ -6,9 +6,10 @@
 #include "PluginManager.h"
 #include "Document.h"
 #include "../DocumentCore/IPlugin.h"
-#include "../DocumentCore/TxtDocument.h"
+
 #include "../WordCountPlugin/WordCountPlugin.h"
 #include "../EncryptionPlugin/EncryptionPlugin.h"
+#include "../JsonValidationPlugin/JsonValidationPlugin.h"
 
 void CPluginManager::register_plugin(std::shared_ptr<IPlugin> p)
 {
@@ -49,9 +50,14 @@ int main()
 		CPluginManager pm;
 		pm.register_plugin(std::make_shared<CWordCountPlugin>());
 		pm.register_plugin(std::make_shared<CEncryptionPlugin>());
+
+		pm.register_plugin(std::make_shared<CJsonValidationPlugin>());
+
 		CTxtDocument  txt("sample.txt");
+		CJsonDocument json("sample.json");
 
 		pm.run_plugins_for_document(txt);
+		pm.run_plugins_for_document(json);
 		std::cout << txt.get_content() << std::endl;
 
 	}

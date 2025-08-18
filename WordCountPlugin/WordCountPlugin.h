@@ -15,5 +15,5 @@ public:
     std::string get_plugin_name() const override;
 
 private:
-    static size_t word_count(const std::string& srrContent);
+    static size_t word_count(const std::string& strContent);
 };

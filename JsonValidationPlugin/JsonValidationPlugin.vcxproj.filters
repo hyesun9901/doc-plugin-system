@@ -21,19 +21,7 @@
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TxtDocument.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonDocument.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CsvDocument.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DocumentCore.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IPlugin.h">
+    <ClInclude Include="JsonValidationPlugin.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -41,25 +29,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DocumentCore.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="TxtDocument.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonDocument.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CsvDocument.cpp">
+    <ClCompile Include="JsonValidationPlugin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DocumentCore.rc">
+    <ResourceCompile Include="JsonValidationPlugin.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
