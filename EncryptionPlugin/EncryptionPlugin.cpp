@@ -35,3 +35,11 @@ std::string CEncryptionPlugin::rot13(const std::string& s)
 	}
 	return out;
 }
+
+extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
+	return new CEncryptionPlugin();
+}
+
+extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {
+	delete p;
+}

@@ -68,3 +68,11 @@ bool CJsonKeyValuePrint::print_key_value(const std::string& strJson)
 
 	return true;
 }
+
+extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
+	return new CJsonKeyValuePrint();
+}
+
+extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {
+	delete p;
+}

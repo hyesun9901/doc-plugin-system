@@ -43,3 +43,11 @@ std::string CWordCountPlugin::get_plugin_name() const
 {
     return "WordCountPlugin";
 }
+
+extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
+	return new CWordCountPlugin();
+}
+
+extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {
+	delete p;
+}

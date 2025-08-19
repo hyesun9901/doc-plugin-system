@@ -1,6 +1,8 @@
 #include "pch.h"
 #include <iostream>
 #include <vector>
+#include <Shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
 #include "CsvColumnSumPlugin.h"
 
 bool CCsvColumnSumPlugin::is_supported(CDocument& doc) const
@@ -47,4 +49,31 @@ int CCsvColumnSumPlugin::execute(CDocument& doc)
 std::string CCsvColumnSumPlugin::get_plugin_name() const
 {
 	return "CsvColumnSumPlugin";
+}
+
+extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
+
+	wchar_t szDllPath[MAX_PATH] = {};
+	if (!GetModuleFileNameW(nullptr, szDllPath, MAX_PATH)) 
+	{
+		return nullptr;
+	}
+
+	PathRemoveFileSpec(szDllPath);
+	wchar_t szInIFullPath[MAX_PATH] = { 0, };
+	const wchar_t* pszIniPath = L"CsvColumnSumPlugin.ini";
+	swprintf_s(szInIFullPath, MAX_PATH, L"%s\\%s", szDllPath, pszIniPath);
+
+	int column_index = GetPrivateProfileIntW(L"CsvColumnSumPlugin", L"column_index", 0, szInIFullPath);
+	
+	wchar_t buffer[16] = {};
+	GetPrivateProfileStringW(L"CsvColumnSumPlugin", L"has_header", L"true", buffer, 16, szInIFullPath);
+	
+	bool has_header = (_wcsicmp(buffer, L"true") == 0 || _wcsicmp(buffer, L"1") == 0);
+
+	return new CCsvColumnSumPlugin(static_cast<size_t>(column_index), has_header);
+}
+
+extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {
+	delete p;
 }

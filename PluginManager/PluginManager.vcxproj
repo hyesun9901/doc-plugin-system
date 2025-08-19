@@ -122,7 +122,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\DocumentPlugin\x64\Release;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DocumentCore.lib;WordCountPlugin.lib;EncryptionPlugin.lib;JsonValidationPlugin.lib;JsonKeyValuePrint.lib;CsvColumnSumPlugin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DocumentCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

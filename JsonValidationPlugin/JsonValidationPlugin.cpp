@@ -39,3 +39,11 @@ bool CJsonValidationPlugin::is_json_valid(const std::string& strContent)
 	bJsonValid = reader->parse(strContent.c_str(), strContent.c_str() + strContent.length(), &root, &strErrors);
 	return bJsonValid;
 }
+
+extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
+	return new CJsonValidationPlugin();
+}
+
+extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {
+	delete p;
+}
