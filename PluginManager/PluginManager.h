@@ -8,7 +8,8 @@
 class CPluginManager 
 {
 public:
-	void register_plugin(const std::wstring& folder);
+	void register_plugin(const std::wstring& folder); // plugins.ini 파일의 플러그인 dll만 찾아 로딩한다.
+	void register_plugin_all(const std::wstring& folder); //특정 폴더 모든 *.dll을 로딩한다.
 	void run_plugins_for_document(CDocument& doc);
 
 private:

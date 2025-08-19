@@ -14,7 +14,7 @@
 using CreateFn  = IPlugin* (*)();
 using DestroyFn = void     (*)(IPlugin*);
 
-void CPluginManager::register_plugin(const std::wstring& folder)
+void CPluginManager::register_plugin_all(const std::wstring& folder)
 {
 	WIN32_FIND_DATAW findData;
 	HANDLE hFind = FindFirstFileW((folder + L"\\*.dll").c_str(), &findData);
@@ -42,6 +42,40 @@ void CPluginManager::register_plugin(const std::wstring& folder)
 	} while (FindNextFileW(hFind, &findData));
 
 	FindClose(hFind);
+}
+
+void CPluginManager::register_plugin(const std::wstring& wstrFolder)
+{
+	std::wstring iniPath = wstrFolder + L"\\plugins.ini";
+	wchar_t buffer[256];
+
+	for (int i = 1;; ++i)
+	{
+		std::wstring key = L"Plugin" + std::to_wstring(i);
+		DWORD len = GetPrivateProfileStringW(L"Plugins", key.c_str(), nullptr, buffer, sizeof(buffer) / sizeof(wchar_t), iniPath.c_str());
+		if (len == 0)
+			break; // 더 이상 항목 없음
+
+		std::wstring dllPath = wstrFolder + L"\\" + buffer;
+
+		HMODULE hModule = LoadLibraryW(dllPath.c_str());
+		if (!hModule)
+			continue;
+
+		auto create = reinterpret_cast<CreateFn>(GetProcAddress(hModule, "CreatePlugin"));
+		auto destroy = reinterpret_cast<DestroyFn>(GetProcAddress(hModule, "DestroyPlugin"));
+		if (!create || !destroy)
+		{
+			FreeLibrary(hModule);
+			continue;
+		}
+
+		IPlugin* raw = create();
+		std::shared_ptr<IPlugin> sp(raw, [destroy](IPlugin* q) { destroy(q); });
+		m_vecPlugins.push_back({ hModule, std::move(sp), destroy });
+
+		std::wcout << L"[Plugin] loaded: " << buffer << std::endl;
+	}
 }
 
 void CPluginManager::run_plugins_for_document(CDocument& doc)
@@ -78,7 +112,8 @@ int main()
 	try {
 		CPluginManager pm;
 		pm.register_plugin(L"C:\\CppWorks\\SamsungMedisonPT\\DocumentPlugin\\x64\\Release");
-
+		//pm.register_plugin_all(L"C:\\CppWorks\\SamsungMedisonPT\\DocumentPlugin\\x64\\Release");
+		
 		CTxtDocument  txt("sample.txt");
 		CJsonDocument json("sample.json");
 		CCsvDocument csv("sample.csv");
