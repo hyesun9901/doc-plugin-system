@@ -6,8 +6,11 @@
 #include <filesystem>
 #include <memory>
 #include <windows.h>
+#include <shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
+
 #include "PluginManager.h"
-#include "Document.h"
+//#include "Document.h"
 #include "../DocumentCore/IPlugin.h"
 #include "../DocumentCore/DocumentCore.h"
 
@@ -110,9 +113,14 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 int main()
 {
 	try {
+		WCHAR szPath[MAX_PATH];
+		GetModuleFileNameW(NULL, szPath, MAX_PATH);
+		PathRemoveFileSpecW(szPath); 
+		std::wstring strModuleFolderPath = szPath;
+
 		CPluginManager pm;
-		pm.register_plugin(L"C:\\CppWorks\\SamsungMedisonPT\\DocumentPlugin\\x64\\Release");
-		//pm.register_plugin_all(L"C:\\CppWorks\\SamsungMedisonPT\\DocumentPlugin\\x64\\Release");
+		pm.register_plugin(strModuleFolderPath); //현재 실행파일exe의 폴더를 등록
+		//pm.register_plugin_all(strModuleFolderPath);
 		
 		CTxtDocument  txt("sample.txt");
 		CJsonDocument json("sample.json");
