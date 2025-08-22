@@ -10,58 +10,21 @@
 #pragma comment(lib, "Shlwapi.lib")
 
 #include "PluginManager.h"
-//#include "Document.h"
 #include "../DocumentCore/IPlugin.h"
 #include "../DocumentCore/DocumentCore.h"
 
 using CreateFn  = IPlugin* (*)();
 using DestroyFn = void     (*)(IPlugin*);
 
-void CPluginManager::register_plugin_all(const std::wstring& folder)
+void CPluginManager::register_plugin_all(const std::wstring& wstrFolder)
 {
 	WIN32_FIND_DATAW findData;
-	HANDLE hFind = FindFirstFileW((folder + L"\\*.dll").c_str(), &findData);
+	HANDLE hFind = FindFirstFileW((wstrFolder + L"\\*.dll").c_str(), &findData);
 	if (hFind == INVALID_HANDLE_VALUE) return;
 
 	do {
-		std::wstring strDllPath = folder + L"\\" + findData.cFileName;
+		std::wstring strDllPath = wstrFolder + L"\\" + findData.cFileName;
 		HMODULE hModule = LoadLibraryW(strDllPath.c_str());
-		if (!hModule)
-			continue;
-
-		auto create = reinterpret_cast<CreateFn>(GetProcAddress(hModule, "CreatePlugin"));
-		auto destroy = reinterpret_cast<DestroyFn>(GetProcAddress(hModule, "DestroyPlugin"));
-		if (!create || !destroy)
-		{
-			FreeLibrary(hModule); continue;
-		}
-
-		IPlugin* raw = create();
-		std::shared_ptr<IPlugin> sp(raw, [destroy](IPlugin* q) { destroy(q); });
-		m_vecPlugins.push_back({ hModule, std::move(sp), destroy });
-
-		std::wcout << L"[Plugin] loaded: " << findData.cFileName << std::endl;
-
-	} while (FindNextFileW(hFind, &findData));
-
-	FindClose(hFind);
-}
-
-void CPluginManager::register_plugin(const std::wstring& wstrFolder)
-{
-	std::wstring iniPath = wstrFolder + L"\\plugins.ini";
-	wchar_t buffer[256];
-
-	for (int i = 1;; ++i)
-	{
-		std::wstring key = L"Plugin" + std::to_wstring(i);
-		DWORD len = GetPrivateProfileStringW(L"Plugins", key.c_str(), nullptr, buffer, sizeof(buffer) / sizeof(wchar_t), iniPath.c_str());
-		if (len == 0)
-			break; // 더 이상 항목 없음
-
-		std::wstring dllPath = wstrFolder + L"\\" + buffer;
-
-		HMODULE hModule = LoadLibraryW(dllPath.c_str());
 		if (!hModule)
 			continue;
 
@@ -77,13 +40,50 @@ void CPluginManager::register_plugin(const std::wstring& wstrFolder)
 		std::shared_ptr<IPlugin> sp(raw, [destroy](IPlugin* q) { destroy(q); });
 		m_vecPlugins.push_back({ hModule, std::move(sp), destroy });
 
-		std::wcout << L"[Plugin] loaded: " << buffer << std::endl;
+		std::wcout << L"[" << __FUNCTION__ << L"] "<< L"Plugin loaded: " << findData.cFileName << std::endl;
+
+	} while (FindNextFileW(hFind, &findData));
+
+	FindClose(hFind);
+}
+
+void CPluginManager::register_plugin(const std::wstring& wstrFolder)
+{
+	std::wstring wstrIniPath = wstrFolder + L"\\plugins.ini";
+	WCHAR szBuffer[MAX_PATH]{ 0, };
+
+	for (int i = 1;; ++i)
+	{
+		std::wstring wstrIniKey = L"Plugin" + std::to_wstring(i);
+		DWORD dwLen = GetPrivateProfileStringW(L"Plugins", wstrIniKey.c_str(), nullptr, szBuffer, sizeof(szBuffer) / sizeof(wchar_t), wstrIniPath.c_str());
+		if (dwLen == 0)
+			break; // 더 이상 항목 없음
+
+		std::wstring wstrDllPath = wstrFolder + L"\\" + szBuffer;
+
+		HMODULE hModule = LoadLibraryW(wstrDllPath.c_str());
+		if (!hModule)
+			continue;
+
+		auto create = reinterpret_cast<CreateFn>(GetProcAddress(hModule, "CreatePlugin"));
+		auto destroy = reinterpret_cast<DestroyFn>(GetProcAddress(hModule, "DestroyPlugin"));
+		if (!create || !destroy)
+		{
+			FreeLibrary(hModule);
+			continue;
+		}
+
+		IPlugin* iplugin = create();
+		std::shared_ptr<IPlugin> sp(iplugin, [destroy](IPlugin* q) { destroy(q); });
+		m_vecPlugins.push_back({ hModule, std::move(sp), destroy });
+
+		std::wcout <<L"[" << __FUNCTION__ << L"] " << szBuffer << std::endl;
 	}
 }
 
 void CPluginManager::run_plugins_for_document(CDocument& doc)
 {
-	std::cout << "["<<__FUNCTION__<<"] " << doc.get_path() << " (doc type = " << doc.get_type() << ") \n";
+	std::wcout << "["<<__FUNCTION__<<"] " << doc.get_path() << " (doc type = " << doc.get_type() << ") \n";
 	bool bAnyPlugin = false;
 	for (auto& p : m_vecPlugins) 
 	{
@@ -93,13 +93,13 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 			bAnyPlugin = true;
 			try {
 				int nResult = p.inst->execute(doc);
-				std::cout << "[" << __FUNCTION__ << "] " << p.inst->get_plugin_name() <<"result = " << nResult << std::endl;
+				std::wcout << "[" << __FUNCTION__ << "] " << p.inst->get_plugin_name() <<"result = " << nResult << std::endl;
 			}
 			catch (const std::exception& e) {
-				std::cerr << "[ERROR] " << p.inst->get_plugin_name() << ": " << e.what() << "\n";
+				std::wcerr << "[" << __FUNCTION__ << "] "<< "[ERROR] " << p.inst->get_plugin_name() << ": " << e.what() << "\n";
 			}
 			catch (...) {
-				std::cerr << "[ERROR] " << p.inst->get_plugin_name() << ": unknown error\n";
+				std::wcerr << "[" << __FUNCTION__ << "] "<< "[ERROR] " << p.inst->get_plugin_name() << ": unknown error\n";
 			}
 		}
 	}
@@ -113,8 +113,8 @@ void CPluginManager::run_plugins_for_document(CDocument& doc)
 int main()
 {
 	try {
-		WCHAR szPath[MAX_PATH];
-		GetModuleFileNameW(NULL, szPath, MAX_PATH);
+		WCHAR szPath[MAX_PATH] = { 0, };
+		GetModuleFileNameW(nullptr, szPath, MAX_PATH);
 		PathRemoveFileSpecW(szPath); 
 		std::wstring strModuleFolderPath = szPath;
 
@@ -122,16 +122,16 @@ int main()
 		pm.register_plugin(strModuleFolderPath); //현재 실행파일exe의 폴더를 등록
 		//pm.register_plugin_all(strModuleFolderPath);
 		
-		CTxtDocument  txt("sample.txt");
-		CJsonDocument json("sample.json");
-		CCsvDocument csv("sample.csv");
+		CTxtDocument  txt(strModuleFolderPath + L"\\sample.txt");
+		CJsonDocument json(strModuleFolderPath + L"\\sample.json");
+		CCsvDocument csv(strModuleFolderPath + L"\\sample.csv");
 
 		pm.run_plugins_for_document(txt);
 		pm.run_plugins_for_document(json);
 		pm.run_plugins_for_document(csv);
 	}
 	catch (const std::exception& e) {
-		std::cerr << "[ERROR] " << e.what() << std::endl;;
+		std::wcerr << "[ERROR] " << e.what() << std::endl;;
 		return 1;
 	}
 	/*std::string strStop;

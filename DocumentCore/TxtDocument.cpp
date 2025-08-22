@@ -3,21 +3,29 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <codecvt>
 
-CTxtDocument::CTxtDocument(const std::string& path) :CDocument(path)
+
+CTxtDocument::CTxtDocument(const std::wstring& wstrPath) :CDocument(wstrPath)
 {
-    std::ifstream ifs(path);
+    std::wifstream ifs(wstrPath);
     if (!ifs)
     {
-        throw std::runtime_error("Failed to open TXT: " + path);
+        throw std::runtime_error("Failed to open TXT: " + to_utf8(wstrPath));
     }
 
-    std::ostringstream oss;
+    std::wostringstream oss;
     oss << ifs.rdbuf();
-    m_content = oss.str();
+    m_wstrContent = oss.str();
 }
 
-std::string CTxtDocument::get_type() const
+std::wstring CTxtDocument::get_type() const
 {
-    return "txt";
+    return L"txt";
+}
+
+std::string CTxtDocument::to_utf8(const std::wstring& wstr)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.to_bytes(wstr);
 }

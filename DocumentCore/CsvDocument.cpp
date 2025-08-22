@@ -4,18 +4,18 @@
 #include <sstream>
 #include <stdexcept>
 
-CCsvDocument::CCsvDocument(const std::string& path, char delimiter /*= ','*/)
-    : CDocument(path), m_szDelimiter(delimiter)
+CCsvDocument::CCsvDocument(const std::wstring& wstrPath, wchar_t szDelimiter /*= ','*/)
+    : CDocument(wstrPath), m_szDelimiter(szDelimiter)
 {
-    std::ifstream ifs(path);
-    std::string strLine;
+    std::wifstream ifs(wstrPath);
+    std::wstring strLine;
     if (ifs.is_open()) 
     {
         while (std::getline(ifs, strLine))
         {
-            std::stringstream ss(strLine);
-            std::string strField;
-            std::vector<std::string> vecFields;
+            std::wstringstream ss(strLine);
+            std::wstring strField;
+            std::vector<std::wstring> vecFields;
 
             while (std::getline(ss, strField, m_szDelimiter))
             {
@@ -33,12 +33,12 @@ CCsvDocument::CCsvDocument(const std::string& path, char delimiter /*= ','*/)
     }
 }
 
-const std::vector<std::vector<std::string>>& CCsvDocument::get_rows() const
+const std::vector<std::vector<std::wstring>>& CCsvDocument::get_rows() const
 {
     return m_vecRows;
 }
 
-std::string CCsvDocument::get_type() const 
+std::wstring CCsvDocument::get_type() const 
 {
-    return "csv";
+    return L"csv";
 }

@@ -16,7 +16,7 @@ public:
 
 	bool is_supported(CDocument& doc) const override;
 	int execute(CDocument& doc) override;
-	std::string get_plugin_name() const override;
+	std::wstring get_plugin_name() const override;
 
 private:
 	size_t m_col;

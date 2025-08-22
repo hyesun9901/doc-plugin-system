@@ -8,13 +8,14 @@
 #include "../DocumentCore/IPlugin.h"
 #include "../DocumentCore/TxtDocument.h"
 
+//Txt파일을 암호화해주는 플러그인
 class ENCRYPTION_API CEncryptionPlugin : public IPlugin
 {
 public:
 	bool is_supported(CDocument& doc) const override;
 	int execute(CDocument& doc) override;
-	std::string get_plugin_name() const override;
+	std::wstring get_plugin_name() const override;
 
 private:
-	std::string rot13(const std::string& s);
+	std::wstring rot13(const std::wstring& wstr);
 };

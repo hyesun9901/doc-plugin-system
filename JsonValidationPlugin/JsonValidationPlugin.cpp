@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "JsonValidationPlugin.h"
+#include <iostream>
 #include <json/json.h>
-
+#include <codecvt>
 bool CJsonValidationPlugin::is_supported(CDocument& doc) const
 {
-	return doc.get_type() == "json";
+	return doc.get_type() == L"json";
 }
 
 int CJsonValidationPlugin::execute(CDocument& doc)
@@ -13,21 +14,28 @@ int CJsonValidationPlugin::execute(CDocument& doc)
 	bool bJsonValid = is_json_valid(json.get_content());
 	if (true == bJsonValid)
 	{
+		std::cout << "[" << __FUNCTION__ << "] " << "Success to JsonValidation!!\n";
 		return ERROR_SUCCESS;
 	}
 	else
 	{
+		std::cout << "[" << __FUNCTION__ << "] " << "Failed to JsonValidation..\n";
 		return ERROR_INVALID_DATA;
 	}
 
 }
 
-std::string CJsonValidationPlugin::get_plugin_name() const
+std::wstring CJsonValidationPlugin::get_plugin_name() const
 {
-	return "JsonValidationPlugin";
+	return L"JsonValidationPlugin";
 }
 
-bool CJsonValidationPlugin::is_json_valid(const std::string& strContent)
+std::string to_utf8(const std::wstring& wstr) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.to_bytes(wstr);
+}
+
+bool CJsonValidationPlugin::is_json_valid(const std::wstring& strContent)
 {
 	Json::CharReaderBuilder builder;
 	std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
@@ -36,7 +44,8 @@ bool CJsonValidationPlugin::is_json_valid(const std::string& strContent)
 	std::string strErrors;
 
 	bool bJsonValid = false;
-	bJsonValid = reader->parse(strContent.c_str(), strContent.c_str() + strContent.length(), &root, &strErrors);
+	std::string strCopyContent = to_utf8(strContent);
+	bJsonValid = reader->parse(strCopyContent.c_str(), strCopyContent.c_str() + strCopyContent.length(), &root, &strErrors);
 	return bJsonValid;
 }
 

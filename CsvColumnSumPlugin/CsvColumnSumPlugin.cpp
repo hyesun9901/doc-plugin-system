@@ -7,7 +7,7 @@
 
 bool CCsvColumnSumPlugin::is_supported(CDocument& doc) const
 {
-	return doc.get_type() == "csv";
+	return doc.get_type() == L"csv";
 }
 
 int CCsvColumnSumPlugin::execute(CDocument& doc)
@@ -17,7 +17,7 @@ int CCsvColumnSumPlugin::execute(CDocument& doc)
 
 	if (rows.empty()) 
 	{
-		std::cout << "[" << __FUNCTION__ << "] " << doc.get_path() << " is empty file\n";
+		std::wcout << "[" << __FUNCTIONW__ << "] " << doc.get_path() << L" is empty file\n";
 		return ERROR_INVALID_DATA;
 	}
 
@@ -28,50 +28,50 @@ int CCsvColumnSumPlugin::execute(CDocument& doc)
 	{
 		if (m_col >= rows[i].size())
 		{
-			std::cerr << "[" << __FUNCTION__ << "] " <<" Row " << i << " has insufficient columns\n";
+			std::cerr << "[" << __FUNCTIONW__ << "] " <<" Row " << i << " has insufficient columns\n";
 			continue;
 		}
 
-		const std::string& cell = rows[i][m_col];
+		const std::wstring& cell = rows[i][m_col];
 		try {
 			sum += std::stod(cell);
 		}
 		catch (const std::exception& e) {
-			std::cerr << "[" << __FUNCTION__ << "] "<< "Invalid number at row " << i << ", col " << m_col << ": " << cell << "\n";
+			std::wcerr << "[" << __FUNCTIONW__ << "] "<< "Invalid number at row " << i << ", col " << m_col << ": " << cell << "\n";
 		}
 	}
 
-	std::cout <<  "["<< __FUNCTION__ << "] " << doc.get_path() << " col#" << m_col << " -> sum=" << sum << "\n";
+	std::wcout <<  "["<< __FUNCTIONW__ << "] " << doc.get_path() << " column#" << m_col << " -> sum=" << sum << "\n";
 	
 	return ERROR_SUCCESS;
 }
 
-std::string CCsvColumnSumPlugin::get_plugin_name() const
+std::wstring CCsvColumnSumPlugin::get_plugin_name() const
 {
-	return "CsvColumnSumPlugin";
+	return L"CsvColumnSumPlugin";
 }
 
 extern "C" __declspec(dllexport) IPlugin* CreatePlugin() {
 
-	wchar_t szDllPath[MAX_PATH] = {};
+	WCHAR szDllPath[MAX_PATH] = {0,};
 	if (!GetModuleFileNameW(nullptr, szDllPath, MAX_PATH)) 
 	{
 		return nullptr;
 	}
 
 	PathRemoveFileSpec(szDllPath);
-	wchar_t szInIFullPath[MAX_PATH] = { 0, };
-	const wchar_t* pszIniPath = L"CsvColumnSumPlugin.ini";
+	WCHAR szInIFullPath[MAX_PATH] = { 0, };
+	const WCHAR* pszIniPath = L"CsvColumnSumPlugin.ini";
 	swprintf_s(szInIFullPath, MAX_PATH, L"%s\\%s", szDllPath, pszIniPath);
 
-	int column_index = GetPrivateProfileIntW(L"CsvColumnSumPlugin", L"column_index", 0, szInIFullPath);
+	int nColumnIndex = GetPrivateProfileIntW(L"CsvColumnSumPlugin", L"column_index", 0, szInIFullPath);
 	
-	wchar_t buffer[16] = {};
-	GetPrivateProfileStringW(L"CsvColumnSumPlugin", L"has_header", L"true", buffer, 16, szInIFullPath);
+	WCHAR szBuffer[16] = {};
+	GetPrivateProfileStringW(L"CsvColumnSumPlugin", L"has_header", L"true", szBuffer, 16, szInIFullPath);
 	
-	bool has_header = (_wcsicmp(buffer, L"true") == 0 || _wcsicmp(buffer, L"1") == 0);
+	bool bHasHeader = (_wcsicmp(szBuffer, L"true") == 0 || _wcsicmp(szBuffer, L"1") == 0);
 
-	return new CCsvColumnSumPlugin(static_cast<size_t>(column_index), has_header);
+	return new CCsvColumnSumPlugin(static_cast<size_t>(nColumnIndex), bHasHeader);
 }
 
 extern "C" __declspec(dllexport) void DestroyPlugin(IPlugin* p) {

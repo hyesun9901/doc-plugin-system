@@ -3,21 +3,27 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-
-CJsonDocument::CJsonDocument(const std::string& path) :CDocument(path)
+#include <codecvt>
+CJsonDocument::CJsonDocument(const std::wstring& wstrPath) :CDocument(wstrPath)
 {
-    std::ifstream ifs(path);
+    std::wifstream ifs(wstrPath);
     if (!ifs)
     {
-        throw std::runtime_error("Failed to open Json: " + path);
+        throw std::runtime_error("Failed to open Json: " + to_utf8(wstrPath));
     }
 
-    std::ostringstream oss;
+    std::wostringstream oss;
     oss << ifs.rdbuf();
-    m_strJsonText = oss.str();
+    m_wstrJsonText = oss.str();
 }
 
-std::string CJsonDocument::get_type() const
+std::wstring CJsonDocument::get_type() const
 {
-    return "json";
+    return L"json";
+}
+
+std::string CJsonDocument::to_utf8(const std::wstring& wstrInput)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.to_bytes(wstrInput);
 }

@@ -3,11 +3,12 @@
 class CTxtDocument : public CDocument
 {
 public:
-    explicit CTxtDocument(const std::string& path);
-    std::string get_type() const override;
-    std::string& get_content() { return m_content; }
+    explicit CTxtDocument(const std::wstring& wstrPath);
+    std::wstring get_type() const override;
+    std::wstring& get_content() { return m_wstrContent; }
 
 private:
-    std::string m_content;
+    std::string to_utf8(const std::wstring& wstr);
+    std::wstring m_wstrContent;
 };
 

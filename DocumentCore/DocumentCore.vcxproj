@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Document.h" />
     <ClInclude Include="CsvDocument.h" />
     <ClInclude Include="DocumentCore.h" />
     <ClInclude Include="IPlugin.h" />

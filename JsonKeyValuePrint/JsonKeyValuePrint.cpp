@@ -2,9 +2,11 @@
 #include "JsonKeyValuePrint.h"
 #include <json/json.h>
 #include <iostream>
+#include <codecvt>
+
 bool CJsonKeyValuePrint::is_supported(CDocument& doc) const
 {
-	return doc.get_type() == "json";
+	return doc.get_type() == L"json";
 }
 
 int CJsonKeyValuePrint::execute(CDocument& doc)
@@ -13,27 +15,36 @@ int CJsonKeyValuePrint::execute(CDocument& doc)
 	bool bPrint = print_key_value(json.get_content());
 	if (true == bPrint)
 	{
+		std::cout << "[" << __FUNCTION__ << "] " << "Success to Print Json Key Value!!\n";
 		return ERROR_SUCCESS;
 	}
 	else
 	{
+		std::cout << "[" << __FUNCTION__ << "] " << "Failed to Print Json Key Value..\n";
 		return ERROR_INVALID_DATA;
 	}
 
 }
 
-std::string CJsonKeyValuePrint::get_plugin_name() const
+std::wstring CJsonKeyValuePrint::get_plugin_name() const
 {
-	return "JsonKeyValuePrint";
+	return L"JsonKeyValuePrint";
 }
 
-bool CJsonKeyValuePrint::print_key_value(const std::string& strJson)
+std::string to_utf8(const std::wstring& wstr) {
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	return conv.to_bytes(wstr);
+}
+
+bool CJsonKeyValuePrint::print_key_value(const std::wstring& strJson)
 {
 	Json::CharReaderBuilder readerBuilder;
 	Json::Value root;
 	std::string errs;
 
-	std::istringstream iss(strJson);
+
+	std::string strJsonCopy = to_utf8(strJson);
+	std::istringstream iss(strJsonCopy);
 	if (false == Json::parseFromStream(readerBuilder, iss, &root, &errs)) 
 	{
 		std::cerr << "[" << __FUNCTION__ << "] " << "Failed to parse JSON: " << errs << std::endl;
