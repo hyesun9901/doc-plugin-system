@@ -1,7 +1,8 @@
 # doc-plugin-system
 ### A modular and extensible C++ system for processing documents using plugins
 ## 📜DocumentPlugin 솔루션 구조
-<img width="384" height="837" alt="image" src="https://github.com/user-attachments/assets/4f003508-9fc4-473b-a517-bcd1fd83f82b" />
+<img width="423" height="807" alt="image" src="https://github.com/user-attachments/assets/3faebe65-47e2-4710-847f-53a4654825ef" />
+
 
 ## ⚙️클래스 다이어그램
 <img width="1205" height="595" alt="플러그인 drawio" src="https://github.com/user-attachments/assets/2653b739-2bab-42a1-89d6-40610ece9081" />
