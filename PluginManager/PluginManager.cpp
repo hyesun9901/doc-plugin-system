@@ -11,7 +11,9 @@
 
 #include "PluginManager.h"
 #include "../DocumentCore/IPlugin.h"
-#include "../DocumentCore/DocumentCore.h"
+#include "../DocumentCore/TxtDocument.h"
+#include "../DocumentCore/CsvDocument.h"
+#include "../DocumentCore/JsonDocument.h"
 
 using CreateFn  = IPlugin* (*)();
 using DestroyFn = void     (*)(IPlugin*);
@@ -23,8 +25,8 @@ void CPluginManager::register_plugin_all(const std::wstring& wstrFolder)
 	if (hFind == INVALID_HANDLE_VALUE) return;
 
 	do {
-		std::wstring strDllPath = wstrFolder + L"\\" + findData.cFileName;
-		HMODULE hModule = LoadLibraryW(strDllPath.c_str());
+		std::wstring wstrDllPath = wstrFolder + L"\\" + findData.cFileName;
+		HMODULE hModule = LoadLibraryW(wstrDllPath.c_str());
 		if (!hModule)
 			continue;
 
@@ -134,6 +136,6 @@ int main()
 		std::wcerr << "[ERROR] " << e.what() << std::endl;;
 		return 1;
 	}
-	/*std::string strStop;
-	std::cin >> strStop;*/
+	std::string strStop;
+	std::cin >> strStop;
 }

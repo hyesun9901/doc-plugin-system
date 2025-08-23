@@ -1,6 +1,6 @@
 #pragma once
 #include "Document.h"
-class CJsonDocument : public CDocument
+class DOCUMENTCORE_API CJsonDocument : public CDocument
 {
 public:
     explicit CJsonDocument(const std::wstring& wstrPath);

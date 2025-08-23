@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "DocumentCore.h"
+#include "TxtDocument.h"
+#include "JsonDocument.h"
+#include "CsvDocument.h"
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest

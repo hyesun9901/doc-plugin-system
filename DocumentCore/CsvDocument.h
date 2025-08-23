@@ -4,7 +4,7 @@
 #include <vector>
 #include "Document.h"
 
-class CCsvDocument : public CDocument
+class DOCUMENTCORE_API CCsvDocument : public CDocument
 {
 public:
     CCsvDocument(const std::wstring& path, wchar_t delimiter = L',');

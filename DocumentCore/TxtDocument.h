@@ -1,6 +1,6 @@
 #pragma once
 #include "Document.h"
-class CTxtDocument : public CDocument
+class DOCUMENTCORE_API CTxtDocument : public CDocument
 {
 public:
     explicit CTxtDocument(const std::wstring& wstrPath);
