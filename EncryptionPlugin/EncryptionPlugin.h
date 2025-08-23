@@ -9,7 +9,7 @@
 #include "../DocumentCore/TxtDocument.h"
 
 //Txt파일을 암호화해주는 플러그인
-class ENCRYPTION_API CEncryptionPlugin : public IPlugin
+class CEncryptionPlugin : public IPlugin
 {
 public:
 	bool is_supported(CDocument& doc) const override;

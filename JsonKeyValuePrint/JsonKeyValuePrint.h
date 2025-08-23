@@ -9,7 +9,7 @@
 #include "../DocumentCore/JsonDocument.h"
 
 //Json파일을 key value 형태로 출력해주는 플러그인
-class KEYVALUEPRINT_API CJsonKeyValuePrint : public IPlugin
+class CJsonKeyValuePrint : public IPlugin
 {
 public:
 	bool is_supported(CDocument& doc) const override;

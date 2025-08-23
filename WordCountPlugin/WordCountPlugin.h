@@ -8,7 +8,7 @@
 #include "../DocumentCore/TxtDocument.h"
 
 //Txt파일의 단어 수를 검증해주는 플러그인 EX)"hi hi"의 경우 단어 2개이므로 word_count함수는 2를 리턴
-class WORDCOUNT_API CWordCountPlugin : public IPlugin
+class CWordCountPlugin : public IPlugin
 {
 public:
     bool is_supported(CDocument& doc) const override;

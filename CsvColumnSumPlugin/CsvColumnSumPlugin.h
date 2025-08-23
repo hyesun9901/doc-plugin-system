@@ -8,7 +8,7 @@
 #include "../DocumentCore/IPlugin.h"
 #include "../DocumentCore/CsvDocument.h"
 
-class CSVCOLUMNSUM_API CCsvColumnSumPlugin : public IPlugin
+class CCsvColumnSumPlugin : public IPlugin
 {
 public:
 	explicit CCsvColumnSumPlugin(size_t column_index, bool has_header = true)

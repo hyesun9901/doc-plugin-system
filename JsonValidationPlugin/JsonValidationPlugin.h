@@ -9,7 +9,7 @@
 #include "../DocumentCore/JsonDocument.h"
 
 //Json 형식을 검증해주는 플러그인
-class JSONVALIDATION_API CJsonValidationPlugin : public IPlugin
+class CJsonValidationPlugin : public IPlugin
 {
 public:
 	bool is_supported(CDocument& doc) const override;
