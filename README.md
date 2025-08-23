@@ -5,7 +5,9 @@
 
 
 ## ⚙️클래스 다이어그램
-<img width="1205" height="595" alt="플러그인 drawio" src="https://github.com/user-attachments/assets/2653b739-2bab-42a1-89d6-40610ece9081" />
+<img width="1225" height="595" alt="docplugin drawio" src="https://github.com/user-attachments/assets/4a6982ca-ed39-4fb3-830e-2d0b7fe4399d" />
+
+
 
 ## ✔️플러그인 추가 시 방법
 ### 1. 만약, EncryptionPlugin.dll 플러그인을 통해 TXT파일을 암호화 했던 문서를 복호화하는 기능의 플러그인을 추가한다고 가정한다.
